@@ -123,6 +123,9 @@
     </div>
 
     <script>
+        let mesoChart = null;
+        let boomChart = null;
+
         function simulateStarForce(item, simulations) {
             return new Promise((resolve) => {
                 const rates = getRates();
@@ -173,7 +176,15 @@
                             results.forEach(r => boomCounts[r.booms]++);
                             const boomLabels = Array.from({ length: maxBooms + 2 }, (_, i) => i);
 
-                            const mesoChart = new Chart("mesoChart", {
+                            // Destroy old charts if they exist
+                            if (mesoChart) {
+                                mesoChart.destroy();
+                            }
+                            if (boomChart) {
+                                boomChart.destroy();
+                            }
+
+                            mesoChart = new Chart("mesoChart", {
                                 type: "line",
                                 data: {
                                     labels: mesoLabels,
@@ -189,7 +200,7 @@
                                     responsive: true
                                 }
                             });
-                            const boomChart = new Chart("boomChart", {
+                            boomChart = new Chart("boomChart", {
                                 type: "line",
                                 data: {
                                     labels: boomLabels,
